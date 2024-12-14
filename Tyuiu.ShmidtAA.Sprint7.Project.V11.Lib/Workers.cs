@@ -9,6 +9,8 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
 {
     public struct Family
     {
+
+
         /// <summary>
         /// Имя матери
         /// </summary>
@@ -66,12 +68,40 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
 
     }
 
-    struct Workers
+    public struct Workers
     {
+        /// <summary>
+        /// Проверяет, что строка не является пустой или состоит только из пробелов.
+        /// </summary>
+        private void ValidateString(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                throw new ArgumentException("Строка не может быть пустым.");
+            }
+
+        }
+
+
+        private string firstName; // создаю поле
+        private string surname;
+        private string patronymic;
+        private string phoneNumber;
+        private string post;
+
         /// <summary>
         /// Имя
         /// </summary>
-        public string Firstname;
+        public string FirstName
+        {
+            get { return firstName; }
+            set
+            {
+                ValidateString(value);// вызываем метод который проверяет на валидность строки
+                // если проверка не проходит, то срабатывает исключение и значение не задается в поле.
+                firstName = value;
+            }
+        }
 
         /// <summary>
         /// Фамилия
@@ -96,7 +126,7 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
         /// <summary>
         /// Номер телефона
         /// </summary>
-        public string MobilePhone;
+        public string PhoneNumber;
 
         /// <summary>
         /// Дата рождения

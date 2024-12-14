@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
 {
-    struct Addres
+    public struct Addres
     {
         /// <summary>
         /// Название города
