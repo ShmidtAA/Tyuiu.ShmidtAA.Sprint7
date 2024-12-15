@@ -12,21 +12,35 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
         /// <summary>
         /// Название города
         /// </summary>
-        public string City;
+        public string City{ get; set; }
+
 
         /// <summary>
         /// Название улицы
         /// </summary>
-        public string Street;
+        public string Street {  get; set; }
 
         /// <summary>
         /// Номер дома
         /// </summary>
-        public int NumberHouse;
+        public int NumberHouse {  get; set; }
 
         /// <summary>
         /// Номер квартиры
         /// </summary>
-        public int NumberApartment;
+        public int NumberApartment {  get; set; }
+
+        public Addres(
+            string city = "Неизвестно",
+            string street = "Неизввестно",
+            int numberHouse = 0,
+            int numberApartment = 0
+            )
+        {
+            City = city;
+            Street = street;
+            NumberHouse = numberHouse;
+            NumberApartment = numberApartment;
+        }
     }
 }
