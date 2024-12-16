@@ -9,26 +9,85 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
 {
     public struct Addres
     {
+        private void ValidateString(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                throw new ArgumentException("Строка не может быть пустым.");
+            }
+        }
+
+        private void ValidatePositiveNumber(int value)
+        {
+            if (value <= 0)
+            {
+                throw new ArgumentException("Значение должно быть больше или равно нулю");
+            }
+        }
+
+
+
+        private string _city = "Неизвестно";
+        private string _street = "Неизвестно";
+        private int _numberHouse = 0;
+        private int _numberApartment = 0;
+
+
         /// <summary>
         /// Название города
         /// </summary>
-        public string City{ get; set; }
+        public string City 
+        {
+            get { return _city; }
+
+            set
+            {
+                ValidateString(value);
+                _city = value;
+            } 
+        
+        }
 
 
         /// <summary>
         /// Название улицы
         /// </summary>
-        public string Street {  get; set; }
+        public string Street 
+        {  
+            get { return _street; }
+            set
+            {
+                ValidateString(value);
+                _street = value;
+            }
+        }
 
         /// <summary>
         /// Номер дома
         /// </summary>
-        public int NumberHouse {  get; set; }
+        public int NumberHouse
+        {
+            get { return _numberHouse; }
+            set
+            {
+                ValidatePositiveNumber(value);
+                _numberHouse = value;
+            }
+
+        }
 
         /// <summary>
         /// Номер квартиры
         /// </summary>
-        public int NumberApartment {  get; set; }
+        public int NumberApartment
+        {
+            get { return _numberApartment; }
+            set
+            {
+                ValidatePositiveNumber(value);
+                _numberApartment = value;
+            }
+        }
 
         public Addres(
             string city = "Неизвестно",

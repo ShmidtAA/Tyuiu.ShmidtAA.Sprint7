@@ -22,62 +22,164 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
                 throw new ArgumentException("Строка не может быть пустым.");
             }
         }
-
+        private void ValidateDateOfBirth(DateTime value)
+        {
+            if (value >= DateTime.Today)
+            {
+                throw new ArgumentException("Дата рождения не может быть в будущем");
+            }
+        }
 
         /// <summary>
         /// Имя матери
         /// </summary>
-        public string MotherName;
-
+        private string _motherName = "Неизвестно";
         /// <summary>
         /// Фамилия матери
         /// </summary>
-        public string MotherSurname;
-
+        private string _motherSurname = "Неизвестно";
         /// <summary>
         /// Отчество матери
         /// </summary>
-        public string MotherPatronymic;
-
+        private string _motherPatronymic = "Неизвестно";
         /// <summary>
         /// Номер телефона матери
         /// </summary>
-        public string MotherPhoneNumber;
-
+        private string _motherPhoneNumber = "Неизвестно";
         /// <summary>
         /// Дата рождения матери
         /// </summary>
-        public DateTime MotherDateOfBirth;
-
+        private DateTime _motherDateOfBirth;
         /// <summary>
         /// Имя отца
         /// </summary>
-        public string FatherName;
-
+        private string _fatherName = "Неизвестно";
         /// <summary>
         /// Фамилия отца
         /// </summary>
-        public string FatherSurname;
-
+        private string _fatherSurname = "Неизвестно";
         /// <summary>
         /// Отчество отца
         /// </summary>
-        public string FatherPatronymic;
-
+        private string _fatherPatronymic = "Неизвестно";
         /// <summary>
         /// Номер телефона отца
         /// </summary>
-        public string FatherPhoneNumber;
-
+        private string _fatherPhoneNumber = "Неизвестно";
         /// <summary>
         /// Дата рождения отца
         /// </summary>
-        public DateTime FatherDateOfBirth;
-
+        private DateTime _fatherDateOfBirth;
         /// <summary>
         /// Наличие детей(да/нет)
         /// </summary>
-        public bool HavingKids;
+        private bool _havingKids;
+
+        public string MotherName
+        {
+            get { return _motherName; }
+            set
+            {
+                ValidateString(value);
+                _motherName = value;
+            }
+        }
+
+        public string MotherSurname
+        {
+            get { return _motherSurname; }
+            set
+            {
+                ValidateString(value);
+                _motherSurname = value;
+            }
+        }
+
+        public string MotherPatronymic
+        {
+            get { return _motherPatronymic; }
+            set 
+            {
+                ValidateString(value);
+                _motherPatronymic= value; 
+            }
+        }
+
+        public string MotherPhoneNumber
+        {
+            get { return _motherPhoneNumber; }
+            set
+            {
+                ValidateString(value);
+                _motherPhoneNumber = value;
+            }
+        }
+
+        public string FatherName
+        { 
+            get { return _fatherName; }
+            set
+            {
+                ValidateString(value);
+                _fatherName = value;
+            }
+        }
+
+        public string FatherSurname
+        {
+            get { return _fatherSurname; }
+            set
+            {
+                ValidateString(value);
+                _fatherSurname = value;
+            }
+        }
+
+        public string FatherPatronymic
+        {
+            get { return _fatherPatronymic; }
+            set
+            {
+                ValidateString(value);
+                _fatherPatronymic = value;
+            }
+        }
+        
+        public string FatherPhoneNumber
+        {
+            get { return _fatherPhoneNumber; }
+            set
+            {
+                ValidateString(value);
+                _fatherPhoneNumber = value;
+            }
+        }
+
+        public DateTime MotherDayOfBirth
+        {
+            get { return _motherDateOfBirth; }
+
+            set 
+            { 
+                ValidateDateOfBirth(value);
+                _motherDateOfBirth = value;
+            }
+        }
+
+        public DateTime FatherDateOfBirth
+        {
+            get { return _fatherDateOfBirth; }
+            set
+            {
+                ValidateDateOfBirth(value);
+                _fatherDateOfBirth = value;
+            }
+        }
+
+        public Family()// возможно стоит сюда добавить айди воркера, чтобы к нему конкретно привязалось всё это, аналогично с адресами.
+        {
+
+        }
 
     }
 
@@ -101,6 +203,26 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
         }
 
         /// <summary>
+        /// Перегружаем методы для того, чтобы они проверяли больше ли значение или равно чем ноль.
+        /// </summary>
+        private void ValidatePositiveNumber(int value)
+        {
+            if (value <= 0)
+            {
+                throw new ArgumentException("Значение должно быть больше или равно нулю");
+            }
+        }
+
+        private void ValidatePositiveNumber(double value)
+        {
+            if (value <= 0)
+            {
+                throw new ArgumentException("Значение должно быть больше или равно нулю");
+            }
+        }
+
+
+        /// <summary>
         /// Проверяет, что дата рождения не является будущей или сегодняшней датой.
         /// </summary>
         /// <param name="value"> Дата рождения для проверки</param>
@@ -115,15 +237,15 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
         }
 
         private static int _nextId = 1; // счетчик для генерации уникальных ID
-        private string _firstName; // создаю поля
-        private string _surname;
-        private string _patronymic;
-        private string _phoneNumber;
-        private string _post;
-        private string _education;
-        private string _email;
+        private string _firstName = "Неизвестно"; // создаю поля
+        private string _surname = "Неизвестно";
+        private string _patronymic = "Неизвестно";
+        private string _phoneNumber = "Неизвестно";
+        private string _post = "Неизвестно";
+        private string _education = "Неизвестно";
+        private string _email = "Неизвестно";
 
-       
+
         private Addres _homeAdress;
         private DateTime _dateOfBirth;
         private DateTime _dateOfEnrollment;
@@ -139,30 +261,18 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
         public Workers(
             string firstName,
             string surname,
-            string patronymic = "Неизвестно",
-            string phoneNumber = "Неизвестно",
-            string post = "Неизвестно",
-            string education = "Неизвестно",
-            string email = "Неизвестно",
+            string patronymic,
+            string phoneNumber,
+            string post,
+            string education,
+            string email,
             Addres homeAdress = default,
             DateTime dateOfBirth = default,
             DateTime dateOfEnrollment = default,
-            int workExp  = 0,
+            int workExp = 0,
             double salary = 0.0)
         {
             Id = _nextId++; // автоматическая генерация id
-            _firstName = firstName;
-            _surname = surname;
-            _patronymic = patronymic;
-            _phoneNumber = phoneNumber;
-            _post = post;
-            _education = education;
-            _email = email;
-
-
-
-
-            // Вызов свойств для валидации, но я чет сильно сомневаюсь в этом всём, надо уточнить процесс.
             FirstName = firstName;
             Surname = surname;
             Patronymic = patronymic;
@@ -177,15 +287,10 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
 
             WorkExp = workExp;
             Salary = salary;
-
-
-            
-
-
         }
 
-        
-        
+
+
         /// <summary>
         /// Имя
         /// </summary>
@@ -194,7 +299,7 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
             get { return _firstName; }
             set
             {
-                //ValidateString(value);// вызываем метод который проверяет на валидность строки
+                ValidateString(value);// вызываем метод который проверяет на валидность строки
                 // если проверка не проходит, то срабатывает исключение и значение не задается в поле.
                 _firstName = value;
             }
@@ -288,7 +393,7 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
             get
             {
                 DateTime today = DateTime.Today;
-                int age  = today.Year - _dateOfBirth.Year;
+                int age = today.Year - _dateOfBirth.Year;
                 if (_dateOfBirth.Date > today.AddYears(-age)) age--; // используется для корректировки возраста, если дата рождения в текущем году еще не наступила.
                 return age;
 
@@ -309,7 +414,7 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
 
         }
 
-       
+
 
         /// <summary>
         /// Дата рождения
@@ -336,7 +441,7 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
             }
         }
 
-     
+
 
         /// <summary>
         /// Опыт работы
@@ -346,12 +451,13 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
             get { return _workExp; }
             set
             {
+                ValidatePositiveNumber(value);
                 _workExp = value;
             }
         }
 
 
-      
+
 
         /// <summary>
         /// Оклад
@@ -361,14 +467,15 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
             get { return _salary; }
             set
             {
+                ValidatePositiveNumber(value);
                 _salary = value;
             }
         }
 
-      
 
 
-       
+
+
 
     }
 }
