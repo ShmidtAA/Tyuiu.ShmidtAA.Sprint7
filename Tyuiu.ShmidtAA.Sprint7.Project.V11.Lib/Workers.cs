@@ -30,6 +30,7 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
             }
         }
 
+        //Создаю поля.
         /// <summary>
         /// Имя матери
         /// </summary>
@@ -75,6 +76,7 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
         /// </summary>
         private bool _havingKids;
 
+        // Создаю свойства.
         public string MotherName
         {
             get { return _motherName; }
@@ -98,10 +100,10 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
         public string MotherPatronymic
         {
             get { return _motherPatronymic; }
-            set 
+            set
             {
                 ValidateString(value);
-                _motherPatronymic= value; 
+                _motherPatronymic = value;
             }
         }
 
@@ -116,7 +118,7 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
         }
 
         public string FatherName
-        { 
+        {
             get { return _fatherName; }
             set
             {
@@ -144,7 +146,7 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
                 _fatherPatronymic = value;
             }
         }
-        
+
         public string FatherPhoneNumber
         {
             get { return _fatherPhoneNumber; }
@@ -155,12 +157,12 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
             }
         }
 
-        public DateTime MotherDayOfBirth
+        public DateTime MotherDateOfBirth
         {
             get { return _motherDateOfBirth; }
 
-            set 
-            { 
+            set
+            {
                 ValidateDateOfBirth(value);
                 _motherDateOfBirth = value;
             }
@@ -176,8 +178,45 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
             }
         }
 
-        public Family()// возможно стоит сюда добавить айди воркера, чтобы к нему конкретно привязалось всё это, аналогично с адресами.
+        public bool HavingKids
         {
+            get { return _havingKids; }
+            set
+            {
+                _havingKids = value;
+            }
+        }
+
+        public Family(
+
+            string motherName,
+            string motherSurname,
+            string motherPatronymic,
+            string motherPhoneNumber,
+
+            string fatherName,
+            string fatherSurname,
+            string fatherPatronymic,
+            string fatherPhoneNumber,
+
+            bool havingKids = false,
+
+            DateTime motherDateOfBirth = default,
+            DateTime fatherDateOfBirth = default
+            )// возможно стоит сюда добавить айди воркера, чтобы к нему конкретно привязалось всё это, аналогично с адресами.
+        {
+            MotherName = motherName;
+            MotherSurname = motherSurname;
+            MotherPatronymic = motherPatronymic;
+            MotherPhoneNumber = motherPhoneNumber;
+            FatherName = fatherName;
+            FatherSurname = fatherSurname;
+            FatherPatronymic = fatherPatronymic;
+            FatherPhoneNumber = fatherPhoneNumber;
+            HavingKids = havingKids;
+            MotherDateOfBirth =   motherDateOfBirth;
+            FatherDateOfBirth = fatherDateOfBirth;  
+
 
         }
 
@@ -185,10 +224,6 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
 
     public struct Workers
     {
-        /// надо будет добавить проверки для остальных свойств.
-
-
-
         /// <summary>
         /// Проверяет, что строка не является пустой или состоит только из пробелов
         /// </summary>
@@ -220,8 +255,6 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
                 throw new ArgumentException("Значение должно быть больше или равно нулю");
             }
         }
-
-
         /// <summary>
         /// Проверяет, что дата рождения не является будущей или сегодняшней датой.
         /// </summary>
@@ -253,6 +286,7 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
         private double _salary;
 
         public int Id { get; private set; } // уникальный индентификатор без возможности изменения извне 
+
 
 
         /// <summary>
@@ -288,9 +322,6 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
             WorkExp = workExp;
             Salary = salary;
         }
-
-
-
         /// <summary>
         /// Имя
         /// </summary>
@@ -304,7 +335,6 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
                 _firstName = value;
             }
         }
-
         /// <summary>
         /// Фамилия
         /// </summary>
@@ -318,7 +348,6 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
             }
 
         }
-
         /// <summary>
         /// Отчество
         /// </summary>
@@ -331,7 +360,6 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
                 _patronymic = value;
             }
         }
-
         /// <summary>
         /// Номер телефона
         /// </summary>
@@ -344,7 +372,6 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
                 _phoneNumber = value;
             }
         }
-
         /// <summary>
         /// Должность
         /// </summary>
@@ -357,7 +384,6 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
                 _post = value;
             }
         }
-
         /// <summary>
         /// Образование
         /// </summary>
@@ -370,7 +396,6 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
                 _education = value;
             }
         }
-
         /// <summary>
         /// эл. почта
         /// </summary>
@@ -383,7 +408,6 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
                 _email = value;
             }
         }
-
         /// <summary>
         /// Возраст
         /// Здесь мы автоматические подсчитываем возраст, исходя из даты рождения
@@ -399,8 +423,6 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
 
             }
         }
-
-
         /// <summary>
         /// Домашний адрес
         /// </summary>
@@ -413,9 +435,6 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
             }
 
         }
-
-
-
         /// <summary>
         /// Дата рождения
         /// </summary>
@@ -428,7 +447,6 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
                 _dateOfBirth = value;
             }
         }
-
         /// <summary>
         /// Дата зачисления
         /// </summary>
@@ -440,9 +458,6 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
                 _dateOfEnrollment = value;
             }
         }
-
-
-
         /// <summary>
         /// Опыт работы
         /// </summary>
@@ -455,10 +470,6 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
                 _workExp = value;
             }
         }
-
-
-
-
         /// <summary>
         /// Оклад
         /// </summary>
@@ -471,11 +482,5 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
                 _salary = value;
             }
         }
-
-
-
-
-
-
     }
 }

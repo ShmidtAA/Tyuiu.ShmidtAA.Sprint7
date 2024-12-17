@@ -90,8 +90,8 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
         }
 
         public Addres(
-            string city = "Неизвестно",
-            string street = "Неизввестно",
+            string city,
+            string street,
             int numberHouse = 0,
             int numberApartment = 0
             )
