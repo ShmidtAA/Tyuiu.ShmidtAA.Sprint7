@@ -242,7 +242,7 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
         /// </summary>
         private void ValidatePositiveNumber(int value)
         {
-            if (value <= 0)
+            if (value < 0)
             {
                 throw new ArgumentException("Значение должно быть больше или равно нулю");
             }
@@ -250,7 +250,7 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
 
         private void ValidatePositiveNumber(double value)
         {
-            if (value <= 0)
+            if (value < 0)
             {
                 throw new ArgumentException("Значение должно быть больше или равно нулю");
             }
@@ -268,6 +268,10 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
                 throw new ArgumentException("Дата рождения не может быть в будущем");
             }
         }
+        private int AddNextId()
+        {
+            return _nextId++;
+        }
 
         private static int _nextId = 1; // счетчик для генерации уникальных ID
         private string _firstName = "Неизвестно"; // создаю поля
@@ -277,6 +281,7 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
         private string _post = "Неизвестно";
         private string _education = "Неизвестно";
         private string _email = "Неизвестно";
+       
 
 
         private Addres _homeAdress;
@@ -284,8 +289,13 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
         private DateTime _dateOfEnrollment;
         private int _workExp;
         private double _salary;
+        private int id;
 
-        public int Id { get; private set; } // уникальный индентификатор без возможности изменения извне 
+        public int Id { get { return id; } 
+            set {  id = value; }
+                
+                
+                } // уникальный индентификатор без возможности изменения извне 
 
 
 
@@ -306,7 +316,8 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
             int workExp = 0,
             double salary = 0.0)
         {
-            Id = _nextId++; // автоматическая генерация id
+            
+            Id = AddNextId();  // автоматическая генерация id
             FirstName = firstName;
             Surname = surname;
             Patronymic = patronymic;
@@ -348,6 +359,9 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
             }
 
         }
+
+    
+
         /// <summary>
         /// Отчество
         /// </summary>

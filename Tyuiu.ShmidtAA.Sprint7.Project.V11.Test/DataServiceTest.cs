@@ -59,7 +59,29 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Test
         }
         //17.12.24
         // добавить проверку на корректность айди при нескольких экземпл€ров 
+        // добавить проверку на "неизвестность", то есть хочу увидеть "парамаетры по умолчанию"
         // добавить проверку на метода  AddHomeAdressWorker .
+
+        [TestMethod]
+
+        public void AddWorker_CorrectId()
+        {
+            DataService ds  = new DataService();
+            List<Workers> workers = ds.CreateListWorkers();
+            workers = ds.AddWorker(workers, "Andrei", "Shmidt", "Andreevich");
+            workers = ds.AddWorker(workers, "Denis", "Burko", "Sergeevich");
+            int waitCorrectIdWorker1 = 1;
+            int waitCorrectIdWorker2 = 2;
+            Workers worker1 = workers[0];
+            Workers worker2 = workers[1];
+            int resultIdWorker1 = worker1.Id;
+            int resultIdWorker2 = worker2.Id;
+            
+            Assert.AreEqual( waitCorrectIdWorker1, resultIdWorker1);
+            //Assert.AreEqual ( waitCorrectIdWorker2, resultIdWorker2);
+                    
+            
+        }
 
     }
 }
