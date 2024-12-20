@@ -54,7 +54,7 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Test
                 );
 
             bool areEqual = ResultListWorkers.SequenceEqual(WaitListWorkers);
-            Assert.IsTrue( areEqual );
+            //Assert.IsTrue(areEqual);
             CollectionAssert.AreEqual(WaitListWorkers, ResultListWorkers);
         }
         //17.12.24

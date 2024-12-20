@@ -222,8 +222,23 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
 
     }
 
+
+
+
+
+
     public struct Workers
     {
+
+
+       
+        
+
+
+
+
+
+
         /// <summary>
         /// Проверяет, что строка не является пустой или состоит только из пробелов
         /// </summary>
@@ -268,12 +283,12 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
                 throw new ArgumentException("Дата рождения не может быть в будущем");
             }
         }
-        private int AddNextId()
+        private static int AddNextId()
         {
             return _nextId++;
         }
 
-        private static int _nextId = 1; // счетчик для генерации уникальных ID
+        //private static int _nextId = 1; // счетчик для генерации уникальных ID
         private string _firstName = "Неизвестно"; // создаю поля
         private string _surname = "Неизвестно";
         private string _patronymic = "Неизвестно";
@@ -281,7 +296,14 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
         private string _post = "Неизвестно";
         private string _education = "Неизвестно";
         private string _email = "Неизвестно";
-       
+
+
+        private static int _nextId = 1; // счетчик для генерации уникальных ID
+        private readonly int _id; // уникальный идентификатор (только для чтения)
+
+        public int Id => _id; // публичное свойство для доступа
+
+
 
 
         private Addres _homeAdress;
@@ -289,35 +311,35 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
         private DateTime _dateOfEnrollment;
         private int _workExp;
         private double _salary;
-        private int id;
+        //private int id;
 
-        public int Id { get { return id; } 
-            set {  id = value; }
-                
-                
-                } // уникальный индентификатор без возможности изменения извне 
+        //public int Id { get { return id; } 
+        //    set {  id = value; }
 
 
+        //        } // уникальный индентификатор без возможности изменения извне 
+
+      
 
         /// <summary>
         /// конструктор для данной структуры. пока не знаю, что добавить можно в входные переменные. планирую добавить параметры по умолчанию.
         /// </summary>
         public Workers(
-            string firstName,
-            string surname,
-            string patronymic,
-            string phoneNumber,
-            string post,
-            string education,
-            string email,
+            string firstName = "Неизвестно",
+            string surname = "Неизвестно",
+            string patronymic = "Неизвестно",
+            string phoneNumber = "Неизвестно",
+            string post = "Неизвестно",
+            string education = "Неизвестно",
+            string email = "Неизвестно",
             Addres homeAdress = default,
             DateTime dateOfBirth = default,
             DateTime dateOfEnrollment = default,
             int workExp = 0,
             double salary = 0.0)
         {
-            
-            Id = AddNextId();  // автоматическая генерация id
+          
+            _id = AddNextId();  // автоматическая генерация id
             FirstName = firstName;
             Surname = surname;
             Patronymic = patronymic;
