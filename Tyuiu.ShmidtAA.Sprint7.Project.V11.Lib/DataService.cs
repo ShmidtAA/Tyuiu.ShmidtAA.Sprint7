@@ -7,6 +7,23 @@
             return new List <Workers> ();
         }
 
+        /// <summary>
+        /// Возвращает лист с добавлением одного работника
+        /// Не убирай параметры по умолчанию.
+        /// </summary>
+        /// <param name="listWorkers"></param>
+        /// <param name="firstName"></param>
+        /// <param name="surname"></param>
+        /// <param name="patronymic"></param>
+        /// <param name="phoneNumber">"</param>
+        /// <param name="post"></param>
+        /// <param name="education"></param>
+        /// <param name="email"></param>
+        /// <param name="dateOfBirth"></param>
+        /// <param name="dateOfEnrollment"></param>
+        /// <param name="workExp"></param>
+        /// <param name="salary"></param>
+        /// <returns></returns>
         public List<Workers> AddWorker
             (
             List<Workers> listWorkers,
@@ -43,23 +60,39 @@
         public List<Workers> AddHomeAdressWorker 
             (
             List<Workers> listWorkers,
-            int workerId,
+            string workerName,
+            string workerSurname,
+            string workerPatronymic,
             string city,
             string street,
             int numberHouse,
             int numberApartment
             )
         {
-            Addres homeAddres = new Addres();
-            homeAddres.City = city;
-            homeAddres.Street = street;
-            homeAddres.NumberHouse = numberHouse;
-            homeAddres.NumberApartment = numberApartment;
-             
-            Workers worker = listWorkers.Find(w=> w.Id == workerId);
-            worker.HomeAdress = homeAddres;
+           try 
+            {
+                //Addres homeAddres = new Addres();
+                //homeAddres.City = city;
+                //homeAddres.Street = street;
+                //homeAddres.NumberHouse = numberHouse;
+                //homeAddres.NumberApartment = numberApartment;
+
+                Addres homeAddres = new Addres(city, street, numberHouse, numberApartment);
+                
+                Workers worker = listWorkers.Find(w=> w.FirstName == workerName && w.Surname == workerSurname && w.Patronymic == workerPatronymic);// поиск сотрудника.
+                
+              
+                worker.HomeAdress = homeAddres;
+                
+            }
+            catch
+            {
+                throw new ArgumentException("Ошибка при добавлении адреса к работнику");
+            }
             return listWorkers;
         }
+
+
 
     }
 }

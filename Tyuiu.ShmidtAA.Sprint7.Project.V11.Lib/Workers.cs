@@ -230,15 +230,6 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
     public struct Workers
     {
 
-
-       
-        
-
-
-
-
-
-
         /// <summary>
         /// Проверяет, что строка не является пустой или состоит только из пробелов
         /// </summary>
@@ -278,17 +269,14 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
 
         private void ValidateDateOfBirth(DateTime value)
         {
-            if (value >= DateTime.Today)
+            if (value > DateTime.Today)
             {
                 throw new ArgumentException("Дата рождения не может быть в будущем");
             }
         }
-        private static int AddNextId()
-        {
-            return _nextId++;
-        }
+       
 
-        //private static int _nextId = 1; // счетчик для генерации уникальных ID
+        
         private string _firstName = "Неизвестно"; // создаю поля
         private string _surname = "Неизвестно";
         private string _patronymic = "Неизвестно";
@@ -298,10 +286,7 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
         private string _email = "Неизвестно";
 
 
-        private static int _nextId = 1; // счетчик для генерации уникальных ID
-        private readonly int _id; // уникальный идентификатор (только для чтения)
-
-        public int Id => _id; // публичное свойство для доступа
+       
 
 
 
@@ -311,13 +296,7 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
         private DateTime _dateOfEnrollment;
         private int _workExp;
         private double _salary;
-        //private int id;
-
-        //public int Id { get { return id; } 
-        //    set {  id = value; }
-
-
-        //        } // уникальный индентификатор без возможности изменения извне 
+       
 
       
 
@@ -325,13 +304,13 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
         /// конструктор для данной структуры. пока не знаю, что добавить можно в входные переменные. планирую добавить параметры по умолчанию.
         /// </summary>
         public Workers(
-            string firstName = "Неизвестно",
-            string surname = "Неизвестно",
-            string patronymic = "Неизвестно",
-            string phoneNumber = "Неизвестно",
-            string post = "Неизвестно",
-            string education = "Неизвестно",
-            string email = "Неизвестно",
+            string firstName,
+            string surname,
+            string patronymic,
+            string phoneNumber = "Неизвестный номер",
+            string post = "Неизвестная должность",
+            string education = "Неизвестное образование",
+            string email = "Неизвестная эл. почта",
             Addres homeAdress = default,
             DateTime dateOfBirth = default,
             DateTime dateOfEnrollment = default,
@@ -339,7 +318,7 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
             double salary = 0.0)
         {
           
-            _id = AddNextId();  // автоматическая генерация id
+           
             FirstName = firstName;
             Surname = surname;
             Patronymic = patronymic;
@@ -349,8 +328,8 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
             Email = email;
 
             HomeAdress = homeAdress.Equals(default(Addres)) == default ? new Addres() : homeAdress; // проверяет является ли значение равным значением по умолчанию.
-            DateOfBirth = dateOfBirth == default ? DateTime.Today : dateOfBirth;
-            DateOfEnrollment = dateOfEnrollment == default ? DateTime.Today : dateOfEnrollment;
+            DateOfBirth = dateOfBirth;
+            DateOfEnrollment = dateOfEnrollment == default ? DateTime.Today : dateOfEnrollment; // Если по умолчанию значение, то ставит сегодняшнюю дату
 
             WorkExp = workExp;
             Salary = salary;
@@ -404,6 +383,10 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
             get { return _phoneNumber; }
             set
             {
+                if (value == null)
+                {
+                    value = "Неизвестный номер"; /// как же я люблю добавлять костыли
+                }
                 ValidateString(value);
                 _phoneNumber = value;
             }
@@ -416,6 +399,10 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
             get { return _post; }
             set
             {
+                if (value == null)
+                {
+                    value = "Неизвестная должность"; /// как же я люблю добавлять костыли
+                }
                 ValidateString(value);
                 _post = value;
             }
@@ -428,6 +415,10 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
             get { return _education; }
             set
             {
+                if (value == null)
+                {
+                    value = "Неизвестное образование"; /// как же я люблю добавлять костыли
+                }
                 ValidateString(value);
                 _education = value;
             }
@@ -440,6 +431,10 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
             get { return _email; }
             set
             {
+                if (value == null)
+                {
+                    value = "Неизвестная эл. почта"; /// как же я люблю добавлять костыли
+                }
                 ValidateString(value);
                 _email = value;
             }

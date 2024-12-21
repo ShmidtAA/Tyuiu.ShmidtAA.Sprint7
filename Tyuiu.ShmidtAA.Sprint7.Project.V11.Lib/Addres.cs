@@ -21,7 +21,7 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
         {
             if (value <= 0)
             {
-                throw new ArgumentException("Значение должно быть больше или равно нулю");
+                throw new ArgumentException("Значение должно быть больше нуля");
             }
         }
 
@@ -92,14 +92,16 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
         public Addres(
             string city,
             string street,
-            int numberHouse = 0,
-            int numberApartment = 0
+            int numberHouse,
+            int numberApartment
             )
         {
             City = city;
             Street = street;
             NumberHouse = numberHouse;
             NumberApartment = numberApartment;
+
+           
         }
     }
 }
