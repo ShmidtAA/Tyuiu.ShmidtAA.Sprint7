@@ -1,3 +1,4 @@
+using System.Net;
 using Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib;
 namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Test
 {
@@ -115,14 +116,7 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Test
             string firstName = "Andrei";
             string surname = "Shmidt";
             string patronymic = "Andreevich";
-            string phoneNumber = null;
-            string post = "Developer";
-            string education = "TYUIU";
-            string email = "eprst@mail.ru";
-            DateTime dateOfBirth = default;
-            DateTime dateOfEnrollment = new DateTime(2024, 12, 17);
-            int workExp = 1;
-            double salary = 200000.00;
+
 
             // Act
             DataService ds = new DataService();
@@ -173,11 +167,14 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Test
             Assert.AreEqual(0.0, worker.Salary);
         }
 
+        /// <summary>
+        /// Проверка закрепления адреса к работнику
+        /// </summary>
         [TestMethod]
 
         public void AddHomeAdressWorker_ShouldAddAdress()
         {
-            // Значение Arrange
+            // Подготовка Arrange
             string firstName = "Andrei";
             string surname = "Shmidt";
             string patronymic = "Andreevich";
@@ -186,13 +183,18 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Test
             int numberHouse = 34;
             int numberApartment = 72;
 
-            // Действие Act 
             DataService ds = new DataService();
             List<Workers> workers = ds.CreateListWorkers();
+            workers = ds.AddWorker(workers, "firstName", "surname", "patronymic");
             workers = ds.AddWorker(workers, firstName, surname, patronymic);
-            workers = ds.AddHomeAdressWorker(workers, firstName, surname, patronymic, city, street, numberHouse, numberApartment);
 
-            Workers worker = workers[0];
+            Workers worker = ds.FindWorker(workers, firstName, surname, patronymic); // Находим нужный нам экземпляр
+            int index = workers.FindIndex(w => w.Equals(worker)); // находим нужный нам индекс этого экземпляра
+             
+            // Действие Act 
+
+            worker = ds.AddHomeAdressWorker(worker, city, street, numberHouse, numberApartment);
+            workers[index] = worker; //Очень важная строчка не забываем в будущем.
 
             // Проверка Assert
 
@@ -201,7 +203,68 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Test
             Assert.AreEqual(numberHouse, worker.HomeAdress.NumberHouse);
             Assert.AreEqual(numberApartment, worker.HomeAdress.NumberApartment);
 
+            Assert.AreEqual(city, workers[index].HomeAdress.City);
+            Assert.AreEqual(street, workers[index].HomeAdress.Street);
+            Assert.AreEqual(numberHouse, workers[index].HomeAdress.NumberHouse);
+            Assert.AreEqual(numberApartment, workers[index].HomeAdress.NumberApartment);
         }
+
+        [TestMethod]
+        public void AddFamilyWorker_ShouldAddFamily()
+        {
+            //Arrange
+
+            string firstName = "Andrei";
+            string surname = "Shmidt";
+            string patronymic = "Andreevich";
+
+            string motherName = "Wanda";
+            string motherSurname = "Ventham";
+            string motherPatronymic = "Cumberbatch"; // В англоязычных странах отчества не используются, поэтому это будет фамилия
+            string motherPhoneNumber = "+44 123 456 7890";
+
+            string fatherName = "Timothy";
+            string fatherSurname = "Carlton";
+            string fatherPatronymic = "Cumberbatch"; // Аналогично, фамилия вместо отчества
+            string fatherPhoneNumber = "+44 098 765 4321";
+
+            bool havingKids = true; // Бенедикт Камбербэтч имеет детей
+
+            DateTime motherDateOfBirth = new DateTime(1949, 11, 18); // Примерная дата рождения
+            DateTime fatherDateOfBirth = new DateTime(1939, 10, 1); // Примерная дата рождения
+
+            DataService ds = new DataService();
+            List<Workers> workers = ds.CreateListWorkers();
+            workers = ds.AddWorker(workers, "firstName", "surname", "patronymic");
+            workers = ds.AddWorker(workers, firstName, surname, patronymic);
+
+            Workers worker = ds.FindWorker(workers, firstName, surname, patronymic); // Находим нужный нам экземпляр
+            int index = workers.FindIndex(w => w.Equals(worker)); // находим нужный нам индекс этого экземпляра
+            
+            //Act
+
+            worker = ds.AddFamilyWorker(worker, motherName, motherSurname, motherPatronymic, motherPhoneNumber,fatherName, 
+                fatherSurname, fatherPatronymic, fatherPhoneNumber,havingKids,motherDateOfBirth, fatherDateOfBirth);
+
+            workers[index] = worker;
+
+            //Assert
+
+            Assert.AreEqual(motherName, workers[index].Family.MotherName);
+            Assert.AreEqual(motherSurname, workers[index].Family.MotherSurname);
+            Assert.AreEqual(motherPatronymic, workers[index].Family.MotherPatronymic);
+            Assert.AreEqual(motherPhoneNumber, workers[index].Family.MotherPhoneNumber);
+            Assert.AreEqual(fatherName, workers[index].Family.FatherName);
+            Assert.AreEqual(fatherSurname, workers[index].Family.FatherSurname);
+            Assert.AreEqual(fatherPatronymic, workers[index].Family.FatherPatronymic);
+            Assert.AreEqual(fatherPhoneNumber, workers[index].Family.FatherPhoneNumber);
+            Assert.AreEqual(havingKids, workers[index].Family.HavingKids);
+            Assert.AreEqual(motherDateOfBirth, workers[index].Family.MotherDateOfBirth);
+            Assert.AreEqual(fatherDateOfBirth, workers[index].Family.FatherDateOfBirth);
+
+        }
+
+      
 
 
     }

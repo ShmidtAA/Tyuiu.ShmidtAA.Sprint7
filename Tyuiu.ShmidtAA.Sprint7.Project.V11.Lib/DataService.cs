@@ -57,12 +57,9 @@
         }
 
 
-        public List<Workers> AddHomeAdressWorker
+        public Workers AddHomeAdressWorker
             (
-            List<Workers> listWorkers,
-            string workerName,
-            string workerSurname,
-            string workerPatronymic,
+            Workers worker,
             string city,
             string street,
             int numberHouse,
@@ -77,20 +74,65 @@
                 homeAddres.NumberHouse = numberHouse;
                 homeAddres.NumberApartment = numberApartment;
 
-                Workers worker = listWorkers.Find(w => w.FirstName == workerName && w.Surname == workerSurname && w.Patronymic == workerPatronymic);// поиск сотрудника.
                 worker.HomeAdress = homeAddres;
-                int index = listWorkers.FindIndex(w => w.FirstName == workerName && w.Surname == workerSurname && w.Patronymic == workerPatronymic);// поиск индекса сотруднкиа в массиве.
-
-                listWorkers[index] = worker;
             }
             catch
             {
                 throw new ArgumentException("Ошибка при добавлении адреса к работнику");
             }
-            return listWorkers;
+            return worker;
         }
+        public Workers FindWorker(List<Workers> workersList, string workerName, string workerSurname, string workerPatronymic)
+        {
+            Workers worker = workersList.Find(w => w.FirstName == workerName && w.Surname == workerSurname && w.Patronymic == workerPatronymic);// поиск сотрудника по ФИО.
+            return worker;
+        }
+        public Workers AddFamilyWorker
+           (
+            Workers worker,
+             string motherName,
+           string motherSurname,
+           string motherPatronymic,
+           string motherPhoneNumber,
 
+           string fatherName,
+           string fatherSurname,
+           string fatherPatronymic,
+           string fatherPhoneNumber,
 
+           bool havingKids = false,
+
+           DateTime motherDateOfBirth = default,
+           DateTime fatherDateOfBirth = default
+            )
+        {
+            try
+            {
+                Family family = new Family();
+                family.MotherName = motherName;
+                family.MotherSurname = motherSurname;
+                family.MotherPatronymic = motherPatronymic;
+                family.MotherPhoneNumber = motherPhoneNumber;
+
+                family.FatherName = fatherName;
+                family.FatherSurname = fatherSurname;
+                family.FatherPatronymic = fatherPatronymic;
+                family.FatherPhoneNumber = fatherPhoneNumber;
+
+                family.HavingKids = havingKids;
+
+                family.MotherDateOfBirth = motherDateOfBirth;
+                family.FatherDateOfBirth = fatherDateOfBirth;
+
+                worker.Family = family;
+                
+            }
+            catch
+            {
+                throw new ArgumentException("Ошибка при добавлении семьи к работнику");
+            }
+            return worker;
+        }
 
     }
 }

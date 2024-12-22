@@ -203,7 +203,7 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
 
             DateTime motherDateOfBirth = default,
             DateTime fatherDateOfBirth = default
-            )// возможно стоит сюда добавить айди воркера, чтобы к нему конкретно привязалось всё это, аналогично с адресами.
+            )
         {
             MotherName = motherName;
             MotherSurname = motherSurname;
@@ -286,11 +286,11 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
         private string _email = "Неизвестно";
 
 
-       
 
 
 
 
+        private Family _family;
         private Addres _homeAdress;
         private DateTime _dateOfBirth;
         private DateTime _dateOfEnrollment;
@@ -465,6 +465,15 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
                 _homeAdress = value;
             }
 
+        }
+
+        public Family Family
+        {
+            get { return _family; }
+            set
+            {
+                _family = value;
+            }
         }
         /// <summary>
         /// Дата рождения
