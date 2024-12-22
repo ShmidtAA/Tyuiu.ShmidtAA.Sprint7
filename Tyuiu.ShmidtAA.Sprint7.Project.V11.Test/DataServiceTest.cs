@@ -5,7 +5,7 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Test
     [TestClass]
     public class DataServiceTest
     {
-        DataService ds = new DataService();
+        
 
         /// <summary>
         /// проверил добавляется ли элемент в массив
@@ -13,7 +13,7 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Test
         [TestMethod]
         public void CreateListWorkers_ShouldReturnNonEmptyList()
         {
-            List<Workers> listWorkers = ds.CreateListWorkers();
+            List<Workers> listWorkers = DataService.CreateListWorkers();
             Assert.IsNotNull(listWorkers);
         }
 
@@ -25,7 +25,7 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Test
         public void AddWorker_ShouldAddWorker()
         {
             DataService ds = new DataService();
-            List<Workers> ResultListWorkers = ds.CreateListWorkers();
+            List<Workers> ResultListWorkers = DataService.CreateListWorkers();
 
             string firstName = "Andrei";
             string surname = "Shmidt";
@@ -90,7 +90,7 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Test
 
             // Act
             DataService ds = new DataService();
-            List<Workers> ResultListWorkers = ds.CreateListWorkers();
+            List<Workers> ResultListWorkers = DataService.CreateListWorkers();
             ResultListWorkers = ds.AddWorker(ResultListWorkers, firstName, surname, patronymic, phoneNumber, post, education, email, dateOfBirth, dateOfEnrollment, workExp, salary);
 
             Workers worker = ResultListWorkers[0];
@@ -120,7 +120,7 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Test
 
             // Act
             DataService ds = new DataService();
-            List<Workers> ResultListWorkers = ds.CreateListWorkers();
+            List<Workers> ResultListWorkers = DataService.CreateListWorkers();
             ResultListWorkers = ds.AddWorker(ResultListWorkers, firstName, surname, patronymic);
 
             Workers worker = ResultListWorkers[0];
@@ -184,7 +184,7 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Test
             int numberApartment = 72;
 
             DataService ds = new DataService();
-            List<Workers> workers = ds.CreateListWorkers();
+            List<Workers> workers = DataService.CreateListWorkers();
             workers = ds.AddWorker(workers, "firstName", "surname", "patronymic");
             workers = ds.AddWorker(workers, firstName, surname, patronymic);
 
@@ -234,7 +234,7 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Test
             DateTime fatherDateOfBirth = new DateTime(1939, 10, 1); // Примерная дата рождения
 
             DataService ds = new DataService();
-            List<Workers> workers = ds.CreateListWorkers();
+            List<Workers> workers = DataService.CreateListWorkers();
             workers = ds.AddWorker(workers, "firstName", "surname", "patronymic");
             workers = ds.AddWorker(workers, firstName, surname, patronymic);
 
@@ -269,7 +269,7 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Test
         {
             //Arrange
             DataService ds = new DataService();
-            List<Workers> workers = ds.CreateListWorkers();
+            List<Workers> workers = DataService.CreateListWorkers();
 
             ds.AddWorker(workers, "Иван", "Иванов", "Иванович", salary: 45000);
             ds.AddWorker(workers, "Петр", "Петров", "Петрович", salary: 52000);
@@ -289,6 +289,29 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Test
             Assert.AreEqual("Петр", workers[1].FirstName);
             Assert.AreEqual("Сергей", workers[2].FirstName);
             Assert.AreEqual("Иван", workers[3].FirstName);
+        }
+        [TestMethod]
+        public void SortByAgeDescending_ShouldListByAgeDescending()
+        {
+            //Arrange
+            DataService ds = new DataService();
+            List<Workers> workers = DataService.CreateListWorkers();
+
+            ds.AddWorker(workers, "Иван", "Иванов", "Иванович", dateOfBirth: new DateTime(2004, 10, 1));
+            ds.AddWorker(workers, "Петр", "Петров", "Петрович", dateOfBirth: new DateTime(1949, 10, 1));
+            ds.AddWorker(workers, "Сергей", "Сергеев", "Сергеевич", dateOfBirth: new DateTime(1949, 11, 1));
+            ds.AddWorker(workers, "Алексей", "Алексеев", "Алексеевич", dateOfBirth: new DateTime(2004, 10, 2));
+            ds.AddWorker(workers, "Дмитрий", "Дмитриев", "Дмитриевич", dateOfBirth: new DateTime(1939, 10, 1));
+
+            //Act
+            workers = DataService.SortByAgeDescending(workers);
+
+            //Assert
+            Assert.AreEqual("Дмитрий", workers[0].FirstName);
+            Assert.AreEqual("Петр", workers[1].FirstName);
+            Assert.AreEqual("Сергей", workers[2].FirstName);
+            Assert.AreEqual("Иван", workers[3].FirstName);
+           
         }
 
 

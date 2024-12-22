@@ -2,7 +2,7 @@
 {
     public class DataService
     {
-        public List<Workers> CreateListWorkers()
+        public static List<Workers> CreateListWorkers()
         {
             return new List<Workers>();
         }
@@ -148,6 +148,19 @@
 
             return workers.OrderByDescending(worker => worker.Salary).ToList();
         }
+        /// <summary>
+        /// Сортирует список работников по возрасту в порядке убывания.
+        /// </summary>
+        /// <param name="workers">Список работников</param>
+        /// <returns>Отсортированный список работников</returns>
+        public static List<Workers> SortByAgeDescending(List<Workers> workers)
+        {
+            if (workers == null || workers.Count == 0)
+            {
+                throw new ArgumentException("Список работников не должен быть пустым.");
+            }
 
+            return workers.OrderByDescending(worker => worker.Age).ToList();
+        }
     }
 }
