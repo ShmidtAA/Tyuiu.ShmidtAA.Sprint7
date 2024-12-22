@@ -134,5 +134,20 @@
             return worker;
         }
 
+        /// <summary>
+        /// Сортирует список работников по зарплате в порядке убывания.
+        /// </summary>
+        /// <param name="workers">Список работников</param>
+        /// <returns>Отсортированный список работников</returns>
+        public static List<Workers> SortBySalaryDescending(List<Workers> workers)
+        {
+            if (workers == null || workers.Count == 0)
+            {
+                throw new ArgumentException("Список работников не должен быть пустым.");
+            }
+
+            return workers.OrderByDescending(worker => worker.Salary).ToList();
+        }
+
     }
 }

@@ -264,7 +264,35 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Test
 
         }
 
-      
+        [TestMethod]
+        public void SortBySalaryDescending_ShouldListBySalaryDescending()
+        {
+            //Arrange
+            DataService ds = new DataService();
+            List<Workers> workers = ds.CreateListWorkers();
+
+            ds.AddWorker(workers, "Иван", "Иванов", "Иванович", salary: 45000);
+            ds.AddWorker(workers, "Петр", "Петров", "Петрович", salary: 52000);
+            ds.AddWorker(workers, "Сергей", "Сергеев", "Сергеевич", salary: 48000);
+            ds.AddWorker(workers, "Алексей", "Алексеев", "Алексеевич", salary: 30000);
+            ds.AddWorker(workers, "Дмитрий", "Дмитриев", "Дмитриевич", salary: 70000);
+
+
+
+            //Act
+            workers = DataService.SortBySalaryDescending(workers);
+
+
+            //Assert
+
+            Assert.AreEqual("Дмитрий", workers[0].FirstName);
+            Assert.AreEqual("Петр", workers[1].FirstName);
+            Assert.AreEqual("Сергей", workers[2].FirstName);
+            Assert.AreEqual("Иван", workers[3].FirstName);
+        }
+
+
+
 
 
     }
