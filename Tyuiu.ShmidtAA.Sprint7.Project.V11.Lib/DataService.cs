@@ -2,9 +2,9 @@
 {
     public class DataService
     {
-        public List <Workers> CreateListWorkers()
+        public List<Workers> CreateListWorkers()
         {
-            return new List <Workers> ();
+            return new List<Workers>();
         }
 
         /// <summary>
@@ -42,11 +42,11 @@
         {
             Workers worker = new Workers();
             worker.FirstName = firstName;
-            worker.Surname = surname;   
+            worker.Surname = surname;
             worker.Patronymic = patronymic;
             worker.PhoneNumber = phoneNumber;
             worker.Post = post;
-            worker.Education = education;  
+            worker.Education = education;
             worker.Email = email;
             worker.DateOfBirth = dateOfBirth;
             worker.DateOfEnrollment = dateOfEnrollment;
@@ -55,9 +55,9 @@
             listWorkers.Add(worker);
             return listWorkers;
         }
-        
 
-        public List<Workers> AddHomeAdressWorker 
+
+        public List<Workers> AddHomeAdressWorker
             (
             List<Workers> listWorkers,
             string workerName,
@@ -69,21 +69,19 @@
             int numberApartment
             )
         {
-           try 
+            try
             {
-                //Addres homeAddres = new Addres();
-                //homeAddres.City = city;
-                //homeAddres.Street = street;
-                //homeAddres.NumberHouse = numberHouse;
-                //homeAddres.NumberApartment = numberApartment;
+                Addres homeAddres = new Addres();
+                homeAddres.City = city;
+                homeAddres.Street = street;
+                homeAddres.NumberHouse = numberHouse;
+                homeAddres.NumberApartment = numberApartment;
 
-                Addres homeAddres = new Addres(city, street, numberHouse, numberApartment);
-                
-                Workers worker = listWorkers.Find(w=> w.FirstName == workerName && w.Surname == workerSurname && w.Patronymic == workerPatronymic);// поиск сотрудника.
-                
-              
+                Workers worker = listWorkers.Find(w => w.FirstName == workerName && w.Surname == workerSurname && w.Patronymic == workerPatronymic);// поиск сотрудника.
                 worker.HomeAdress = homeAddres;
-                
+                int index = listWorkers.FindIndex(w => w.FirstName == workerName && w.Surname == workerSurname && w.Patronymic == workerPatronymic);// поиск индекса сотруднкиа в массиве.
+
+                listWorkers[index] = worker;
             }
             catch
             {

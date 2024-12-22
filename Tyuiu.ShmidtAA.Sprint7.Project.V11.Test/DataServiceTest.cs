@@ -33,8 +33,8 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Test
             string post = "Developer";
             string education = "TYUIU";
             string email = "eprst@mail.ru";
-            DateTime dateOfBirth = new DateTime(2004,04,04);
-            DateTime dateOfEnrollment = new DateTime(2024,12,17);
+            DateTime dateOfBirth = new DateTime(2004, 04, 04);
+            DateTime dateOfEnrollment = new DateTime(2024, 12, 17);
             int workExp = 1;
             double salary = 200000.00;
 
@@ -67,7 +67,7 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Test
         // добавить проверку на "неизвестность", то есть хочу увидеть "парамаетры по умолчанию"
         // добавить проверку на метода  AddHomeAdressWorker .
 
-   
+
         /// <summary>
         /// —нова провер€ю корректность заполнени€ экземпл€ра, но другим способом и с добавлением значение по умолчанию в dateOfBirth и в номере телефона. 
         /// </summary>
@@ -188,23 +188,20 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Test
 
             // ƒействие Act 
             DataService ds = new DataService();
-            List <Workers> workers = ds.CreateListWorkers();
+            List<Workers> workers = ds.CreateListWorkers();
             workers = ds.AddWorker(workers, firstName, surname, patronymic);
-            workers = ds.AddHomeAdressWorker(workers, firstName,surname,patronymic,city,street,numberHouse,numberApartment);
+            workers = ds.AddHomeAdressWorker(workers, firstName, surname, patronymic, city, street, numberHouse, numberApartment);
 
             Workers worker = workers[0];
 
             // ѕроверка Assert
 
-            Assert.AreEqual(city,worker.HomeAdress.City);
-            Assert.AreEqual(street,worker.HomeAdress.Street);
-            Assert.AreEqual(numberHouse,worker.HomeAdress.NumberHouse);
-            Assert.AreEqual(numberApartment,worker.HomeAdress.NumberApartment);
-            
+            Assert.AreEqual(city, worker.HomeAdress.City);
+            Assert.AreEqual(street, worker.HomeAdress.Street);
+            Assert.AreEqual(numberHouse, worker.HomeAdress.NumberHouse);
+            Assert.AreEqual(numberApartment, worker.HomeAdress.NumberApartment);
 
-
-
-    }
+        }
 
 
     }
