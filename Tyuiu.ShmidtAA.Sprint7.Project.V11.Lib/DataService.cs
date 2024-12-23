@@ -1,4 +1,6 @@
-﻿namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
+﻿using System.Text;
+
+namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
 {
     public class DataService
     {
@@ -233,6 +235,43 @@
             }
 
             return workers;
+        }
+        
+        public static void SaveToCsv(List<Workers> workers, string filePath) // хз нужно ли возвращать мне ссылку или сделать воид. Отредачу при фронте если надо будет.
+        {
+            try
+            {
+                ValidateWorkersList(workers);
+
+                // Используем StringBuilder для формирования содержимого CSV УТОЧНИТЬ
+                var csvBuilder = new StringBuilder();
+
+                // пишу заголовок для таблицы
+                csvBuilder.AppendLine("Фамилия;Имя;Отчество;Номер тел.;Должность;Образование;Эл.почта;Город проживания;Улица;Номер дома;Номер кв.;Дата рождения;Дата зачисления в штат;Опыт работы;Заработная плата");
+                var properties = typeof(Workers).GetProperties();
+                //Второй вариант Заголовок: динамически получаем названия свойств объекта Workers
+
+                //csvBuilder.AppendLine(string.Join(";", properties.Select(p => p.Name)));
+
+                foreach (var worker in workers)
+                {
+                    var values = properties.Select(p =>
+                    {
+                        var value = p.GetValue(worker); // Получаем значение свойства
+                        return value == null
+                            ? "" // Если значение null, записываем пустую строку
+                            : value.ToString(); // Преобразуем значение в строку
+                    });
+
+                    csvBuilder.AppendLine(string.Join(";", values));
+                }
+
+                File.WriteAllText(filePath, csvBuilder.ToString(), Encoding.UTF8);
+            }
+            catch 
+            {
+            throw new Exception("Ошибка в сохранении файла");
+            }
         }
     }
 }

@@ -208,6 +208,14 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Test
             Assert.AreEqual(street, workers[index].HomeAdress.Street);
             Assert.AreEqual(numberHouse, workers[index].HomeAdress.NumberHouse);
             Assert.AreEqual(numberApartment, workers[index].HomeAdress.NumberApartment);
+
+            //смотрю какие переменные внутри экземпляра, в котором не добавляли адрес.
+            Assert.AreEqual(null, workers[0].HomeAdress.City); 
+            Assert.AreEqual(null, workers[0].HomeAdress.Street);
+            Assert.AreEqual(0, workers[0].HomeAdress.NumberHouse);
+            Assert.AreEqual(0, workers[0].HomeAdress.NumberApartment);
+
+
         }
 
         [TestMethod]
@@ -317,7 +325,7 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Test
 
         [TestMethod]
         
-        public void SortBySurname()
+        public void SortBySurname_ShouldAlphabeticallySortedBySurname()
         {
             //Arrange
             DataService ds = new DataService();
@@ -345,7 +353,37 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Test
 
         }
 
+        [TestMethod]
 
+        public void SaveToCsv_ShouldCreateScvFile()
+        {
+            //Arrange
+            DataService ds = new DataService();
+            List<Workers> workers = DataService.CreateListWorkers();
+
+            string firstName = "Andrei";
+            string surname = "Shmidt";
+            string patronymic = "Andreevich";
+            string phoneNumber = "8999999999";
+            string post = "Developer";
+            string education = "TYUIU";
+            string email = "eprst@mail.ru";
+            DateTime dateOfBirth = new DateTime(2004, 04, 04);
+            DateTime dateOfEnrollment = new DateTime(2024, 12, 17);
+            int workExp = 1;
+            double salary = 200000.00;
+
+            workers = ds.AddWorker(workers, firstName, surname, patronymic, phoneNumber, post, education, email, dateOfBirth, dateOfEnrollment, workExp, salary);
+
+            string path = @"D:\Загрузки\InPutDataFileSprint7.csv";
+            //Act
+            DataService.SaveToCsv(workers,path);
+
+
+            //Assert
+
+            // Есть проблемы с выводом таблички
+        }
 
 
     }
