@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Bson;
 using System.Net;
 using Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib;
 namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Test
@@ -314,6 +315,35 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Test
            
         }
 
+        [TestMethod]
+        
+        public void SortBySurname()
+        {
+            //Arrange
+            DataService ds = new DataService();
+            List<Workers> workers = DataService.CreateListWorkers();
+
+            ds.AddWorker(workers, "Иван", "Иванов", "Иванович", dateOfBirth: new DateTime(2004, 10, 1));
+            ds.AddWorker(workers, "Петр", "Петров", "Петрович", dateOfBirth: new DateTime(1949, 10, 1));
+            ds.AddWorker(workers, "Сергей", "Сергеев", "Сергеевич", dateOfBirth: new DateTime(1949, 11, 1));
+            ds.AddWorker(workers, "Алексей", "Алексеев", "Алексеевич", dateOfBirth: new DateTime(2004, 10, 2));
+            ds.AddWorker(workers, "Дмитрий", "Дмитриев", "Дмитриевич", dateOfBirth: new DateTime(1939, 10, 1));
+
+            //Act
+            workers = DataService.SortBySurname(workers);
+
+            //Assert
+            Assert.AreEqual("Алексеев", workers[0].Surname);
+            Assert.AreEqual("Алексей", workers[0].FirstName);
+            Assert.AreEqual("Алексеевич", workers[0].Patronymic);
+            Assert.AreEqual(new DateTime(2004, 10, 2), workers[0].DateOfBirth);
+            Assert.AreEqual("Дмитриев", workers[1].Surname);
+            Assert.AreEqual("Иванов", workers[2].Surname);
+            Assert.AreEqual("Петров", workers[3].Surname);
+            Assert.AreEqual("Сергеев", workers[4].Surname);
+
+
+        }
 
 
 

@@ -40,19 +40,26 @@
             double salary = 0.0
             )
         {
-            Workers worker = new Workers();
-            worker.FirstName = firstName;
-            worker.Surname = surname;
-            worker.Patronymic = patronymic;
-            worker.PhoneNumber = phoneNumber;
-            worker.Post = post;
-            worker.Education = education;
-            worker.Email = email;
-            worker.DateOfBirth = dateOfBirth;
-            worker.DateOfEnrollment = dateOfEnrollment;
-            worker.WorkExp = workExp;
-            worker.Salary = salary;
-            listWorkers.Add(worker);
+            try
+            {
+                Workers worker = new Workers();
+                worker.FirstName = firstName;
+                worker.Surname = surname;
+                worker.Patronymic = patronymic;
+                worker.PhoneNumber = phoneNumber;
+                worker.Post = post;
+                worker.Education = education;
+                worker.Email = email;
+                worker.DateOfBirth = dateOfBirth;
+                worker.DateOfEnrollment = dateOfEnrollment;
+                worker.WorkExp = workExp;
+                worker.Salary = salary;
+                listWorkers.Add(worker);
+            }
+            catch 
+            {
+                throw new Exception("Ошибка при добавлении работника в динам. массив");            
+            }
             return listWorkers;
         }
 
@@ -78,13 +85,38 @@
             }
             catch
             {
-                throw new ArgumentException("Ошибка при добавлении адреса к работнику");
+                throw new Exception("Ошибка при добавлении адреса к работнику");
             }
             return worker;
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="workers"></param>
+        /// <exception cref="ArgumentException"></exception>
+        private static void ValidateWorkersList(List<Workers> workers)
+        {
+            if (workers == null || workers.Count == 0)
+            {
+                throw new ArgumentException("Список работников не должен быть пустым.");
+            }
+        }
+
+
         public Workers FindWorker(List<Workers> workersList, string workerName, string workerSurname, string workerPatronymic)
         {
-            Workers worker = workersList.Find(w => w.FirstName == workerName && w.Surname == workerSurname && w.Patronymic == workerPatronymic);// поиск сотрудника по ФИО.
+            Workers worker = new Workers();
+            try
+            {
+                
+            ValidateWorkersList(workersList);
+            worker = workersList.Find(w => w.FirstName == workerName && w.Surname == workerSurname && w.Patronymic == workerPatronymic);// поиск сотрудника по ФИО.
+            }
+            catch
+            {
+                throw new Exception("Ошибка при поиске нужного сотрудника.");
+            }
             return worker;
         }
         public Workers AddFamilyWorker
@@ -129,10 +161,12 @@
             }
             catch
             {
-                throw new ArgumentException("Ошибка при добавлении семьи к работнику");
+                throw new Exception("Ошибка при добавлении семьи к работнику");
             }
             return worker;
         }
+
+
 
         /// <summary>
         /// Сортирует список работников по зарплате в порядке убывания.
@@ -141,13 +175,21 @@
         /// <returns>Отсортированный список работников</returns>
         public static List<Workers> SortBySalaryDescending(List<Workers> workers)
         {
-            if (workers == null || workers.Count == 0)
+            try
             {
-                throw new ArgumentException("Список работников не должен быть пустым.");
+                ValidateWorkersList(workers);
+
+                workers = workers.OrderByDescending(worker => worker.Salary).ToList();
             }
 
-            return workers.OrderByDescending(worker => worker.Salary).ToList();
+            catch 
+            {
+             throw new Exception("Ошибка при сортировке по заработной плате.");
+            } 
+            
+                return workers;
         }
+
         /// <summary>
         /// Сортирует список работников по возрасту в порядке убывания.
         /// </summary>
@@ -155,12 +197,42 @@
         /// <returns>Отсортированный список работников</returns>
         public static List<Workers> SortByAgeDescending(List<Workers> workers)
         {
-            if (workers == null || workers.Count == 0)
+            try
             {
-                throw new ArgumentException("Список работников не должен быть пустым.");
+                ValidateWorkersList(workers);
+                workers = workers.OrderByDescending(worker => worker.Age).ToList();
+            }
+            catch
+            {
+                throw new Exception("Ошибка при сортировке возраста по убыванию.");
+            }
+            return workers;
+        }
+
+        /// <summary>
+        /// Сортирует список работников по фамилии в алфавитном порядке.
+        /// </summary>
+        /// <param name="workers"></param>
+        /// <returns></returns>
+        public static List<Workers> SortBySurname (List<Workers> workers)
+        {
+            try 
+            {
+                ValidateWorkersList(workers);
+
+                // Метод Sort используется для сортировки списка workers "на месте".
+                // Лямбда-выражение задает способ сравнения двух объектов Workers.
+                // Здесь мы сравниваем поле Surname у двух работников.
+                // Используем string.Compare для строгого (Ordinal) побайтового сравнения строк.
+                // StringComparison.Ordinal выполняет сравнение на основе кодов символов Unicode без учета культуры, то здесь сравнивает по алфавиту, там А самое наим. по знач.
+                workers.Sort((worker1, worker2) => string.Compare(worker1.Surname, worker2.Surname, StringComparison.Ordinal));
+            }
+            catch
+            {
+                throw new Exception("Ошибка при сортировке по фамилии в алфавитном порядке.");
             }
 
-            return workers.OrderByDescending(worker => worker.Age).ToList();
+            return workers;
         }
     }
 }
