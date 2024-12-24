@@ -236,42 +236,89 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
 
             return workers;
         }
-        
-        public static void SaveToCsv(List<Workers> workers, string filePath) // хз нужно ли возвращать мне ссылку или сделать воид. Отредачу при фронте если надо будет.
+
+        public static void SaveToCsv(List<Workers> workers, string filePath)
         {
             try
             {
                 ValidateWorkersList(workers);
 
-                // Используем StringBuilder для формирования содержимого CSV УТОЧНИТЬ
+                // Если файл уже существует, удаляем его
+                if (File.Exists(filePath))
+                {
+                    File.Delete(filePath);
+                }
+
+                // Создаем StringBuilder для формирования содержимого CSV
                 var csvBuilder = new StringBuilder();
 
-                // пишу заголовок для таблицы
-                csvBuilder.AppendLine("Фамилия;Имя;Отчество;Номер тел.;Должность;Образование;Эл.почта;Город проживания;Улица;Номер дома;Номер кв.;Дата рождения;Дата зачисления в штат;Опыт работы;Заработная плата");
-                var properties = typeof(Workers).GetProperties();
-                //Второй вариант Заголовок: динамически получаем названия свойств объекта Workers
+                // Заголовок CSV (включая адрес в отдельных столбцах)
+                csvBuilder.AppendLine("Фамилия;Имя;Отчество;Номер тел.;Возраст;Должность;Образование;Эл.почта;Город;Улица;Дом;Квартира;Дата рождения;Дата зачисления в штат;Опыт работы;Заработная плата(руб.)");
 
-                //csvBuilder.AppendLine(string.Join(";", properties.Select(p => p.Name)));
-
+                // Обработка данных сотрудников
                 foreach (var worker in workers)
                 {
-                    var values = properties.Select(p =>
-                    {
-                        var value = p.GetValue(worker); // Получаем значение свойства
-                        return value == null
-                            ? "" // Если значение null, записываем пустую строку
-                            : value.ToString(); // Преобразуем значение в строку
-                    });
+                    var values = new List<string>
+            {
+                worker.Surname,
+                worker.FirstName,
+                worker.Patronymic,
+                worker.PhoneNumber,
+                worker.Age.ToString(),
+                worker.Post,
+                worker.Education,
+                worker.Email
+            };
 
+                    // Проверяем, есть ли у сотрудника адрес и добавляем его компоненты
+                    if (worker.HomeAdress is Addres address)
+                    {
+                        values.Add(address.City);
+                        values.Add(address.Street);
+                        values.Add(address.NumberHouse.ToString());
+                        values.Add(address.NumberApartment.ToString());
+                    }
+                    else
+                    {
+                        // Если адреса нет, добавляем пустые значения
+                        values.AddRange(new[] { "", "", "", "" });
+                    }
+
+                    // Добавляем оставшиеся данные
+                    values.Add(worker.DateOfBirth.ToString("dd.MM.yyyy"));
+                    values.Add(worker.DateOfEnrollment.ToString("dd.MM.yyyy"));
+                    values.Add(worker.WorkExp.ToString());
+                    values.Add(worker.Salary.ToString("F2")); // Два знака после запятой для зарплаты
+
+                    // Добавляем строку данных в CSV
                     csvBuilder.AppendLine(string.Join(";", values));
                 }
 
+                // Записываем сформированное содержимое в файл
                 File.WriteAllText(filePath, csvBuilder.ToString(), Encoding.UTF8);
             }
-            catch 
+            catch (Exception ex)
             {
-            throw new Exception("Ошибка в сохранении файла");
+                throw new Exception("Ошибка в сохранении файла", ex);
             }
+        }
+
+
+        // Метод для обработки адреса
+        private static string ProcessAddress(string addressPath)
+        {
+            // Пример преобразования пути в структурированный адрес
+            // Например: "Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib.Addres"
+            var parts = addressPath.Split('.'); // Разделяем строку по точкам
+            if (parts.Length >= 4)
+            {
+                var city = parts[0];
+                var street = parts[1];
+                var house = parts[2];
+                var apartment = parts.Length > 4 ? parts[3] : "—";
+                return $"{city};{street};{house};{apartment}";
+            }
+            return "Неизвестный адрес";
         }
     }
 }

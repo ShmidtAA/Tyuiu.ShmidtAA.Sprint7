@@ -9,6 +9,8 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
 {
     public struct Addres
     {
+        
+
         private void ValidateString(string value)
         {
             if (string.IsNullOrWhiteSpace(value))

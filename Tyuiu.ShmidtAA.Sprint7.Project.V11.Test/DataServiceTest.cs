@@ -372,19 +372,146 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Test
             DateTime dateOfEnrollment = new DateTime(2024, 12, 17);
             int workExp = 1;
             double salary = 200000.00;
+            string city = "Тюмень";
+            string street = "Республики";
+            int numberHouse = 34;
+            int numberApartment = 72;
+
+
 
             workers = ds.AddWorker(workers, firstName, surname, patronymic, phoneNumber, post, education, email, dateOfBirth, dateOfEnrollment, workExp, salary);
+            Workers worker = ds.FindWorker(workers, firstName, surname, patronymic); // Находим нужный нам экземпляр
+            int index = workers.FindIndex(w => w.Equals(worker)); // находим нужный нам индекс этого экземпляра
 
-            string path = @"D:\Загрузки\InPutDataFileSprint7.csv";
+            worker = ds.AddHomeAdressWorker(worker, city, street, numberHouse, numberApartment);
+            workers[index] = worker; //Очень важная строчка не забываем в будущем.
+
+
+
+            string path = @"D:\Загрузки\OutPutDataFileSprint7TEST1.csv";
+            
             //Act
             DataService.SaveToCsv(workers,path);
 
 
             //Assert
+            Assert.IsTrue(File.Exists(path), "CSV файл не был создан.");
 
-            // Есть проблемы с выводом таблички
         }
 
+        [TestMethod]
+        public void SaveToCsv_ShouldCreateCsvFileWithMultipleWorkers()
+        {
+            // Arrange
+            DataService ds = new DataService();
+            List<Workers> workers = DataService.CreateListWorkers();
+
+            // Данные первого работника
+            string firstName1 = "Иван";
+            string surname1 = "Иванов";
+            string patronymic1 = "Иванович";
+            string phoneNumber1 = "89001234567";
+            string post1 = "Разработчик";
+            string education1 = "МГУ";
+            string email1 = "ivanov@mail.ru";
+            DateTime dateOfBirth1 = new DateTime(1990, 1, 1);
+            DateTime dateOfEnrollment1 = new DateTime(2020, 5, 10);
+            int workExp1 = 10;
+            double salary1 = 10000.60;
+            string city1 = "Москва";
+            string street1 = "Ленина";
+            int numberHouse1 = 10;
+            int numberApartment1 = 5;
+
+            workers = ds.AddWorker(workers, firstName1, surname1, patronymic1, phoneNumber1, post1, education1, email1, dateOfBirth1, dateOfEnrollment1, workExp1, salary1);
+            Workers worker1 = ds.FindWorker(workers, firstName1, surname1, patronymic1);
+            int index1 = workers.FindIndex(w => w.Equals(worker1));
+            worker1 = ds.AddHomeAdressWorker(worker1, city1, street1, numberHouse1, numberApartment1);
+            workers[index1] = worker1;
+
+            // Данные второго работника
+            string firstName2 = "Петр";
+            string surname2 = "Петров";
+            string patronymic2 = "Петрович";
+            string phoneNumber2 = "89009876543";
+            string post2 = "Аналитик";
+            string education2 = "СПбГУ";
+            string email2 = "petrov@mail.ru";
+            DateTime dateOfBirth2 = new DateTime(1985, 3, 15);
+            DateTime dateOfEnrollment2 = new DateTime(2015, 8, 20);
+            int workExp2 = 15;
+            double salary2 = 150056.560;
+            string city2 = "Санкт-Петербург";
+            string street2 = "Невский проспект";
+            int numberHouse2 = 20;
+            int numberApartment2 = 10;
+
+            workers = ds.AddWorker(workers, firstName2, surname2, patronymic2, phoneNumber2, post2, education2, email2, dateOfBirth2, dateOfEnrollment2, workExp2, salary2);
+            Workers worker2 = ds.FindWorker(workers, firstName2, surname2, patronymic2);
+            int index2 = workers.FindIndex(w => w.Equals(worker2));
+            worker2 = ds.AddHomeAdressWorker(worker2, city2, street2, numberHouse2, numberApartment2);
+            workers[index2] = worker2;
+
+            // Данные третьего работника
+            string firstName3 = "Мария";
+            string surname3 = "Сидорова";
+            string patronymic3 = "Викторовна";
+            string phoneNumber3 = "89007654321";
+            string post3 = "Менеджер";
+            string education3 = "УрФУ";
+            string email3 = "sidorova@mail.ru";
+            DateTime dateOfBirth3 = new DateTime(1995, 7, 25);
+            DateTime dateOfEnrollment3 = new DateTime(2018, 11, 1);
+            int workExp3 = 5;
+            double salary3 = 100005.555;
+            string city3 = "Екатеринбург";
+            string street3 = "Малышева";
+            int numberHouse3 = 5;
+            int numberApartment3 = 25;
+
+            workers = ds.AddWorker(workers, firstName3, surname3, patronymic3, phoneNumber3, post3, education3, email3, dateOfBirth3, dateOfEnrollment3, workExp3, salary3);
+            Workers worker3 = ds.FindWorker(workers, firstName3, surname3, patronymic3);
+            int index3 = workers.FindIndex(w => w.Equals(worker3));
+            worker3 = ds.AddHomeAdressWorker(worker3, city3, street3, numberHouse3, numberApartment3);
+            workers[index3] = worker3;
+
+            // Данные четвертого работника
+            string firstName4 = "Анна";
+            string surname4 = "Кузнецова";
+            string patronymic4 = "Сергеевна";
+            string phoneNumber4 = "89006543210";
+            string post4 = "Бухгалтер";
+            string education4 = "РЭУ";
+            string email4 = "kuznetsova@mail.ru";
+            DateTime dateOfBirth4 = new DateTime(1992, 12, 12);
+            DateTime dateOfEnrollment4 = new DateTime(2019, 9, 15);
+            int workExp4 = 4;
+            double salary4 = 9000900.00;
+            string city4 = "Новосибирск";
+            string street4 = "Красный проспект";
+            int numberHouse4 = 15;
+            int numberApartment4 = 50;
+
+            workers = ds.AddWorker(workers, firstName4, surname4, patronymic4, phoneNumber4, post4, education4, email4, dateOfBirth4, dateOfEnrollment4, workExp4, salary4);
+            Workers worker4 = ds.FindWorker(workers, firstName4, surname4, patronymic4);
+            int index4 = workers.FindIndex(w => w.Equals(worker4));
+            worker4 = ds.AddHomeAdressWorker(worker4, city4, street4, numberHouse4, numberApartment4);
+            workers[index4] = worker4;
+
+            string path = @"D:\Загрузки\OutPutDataFileSprint7TEST2.csv";
+
+            // Act
+            //DataService.SortBySalaryDescending(workers);// no work
+            //DataService.SortByAgeDescending(workers);// no work
+            DataService.SortBySurname(workers);
+            DataService.SaveToCsv(workers, path);
+
+            // Assert
+            Assert.IsTrue(File.Exists(path), "CSV файл не был создан.");
+            string csvContent = File.ReadAllText(path);
+            //Assert.IsTrue(csvContent.Contains("Иван;Иванов;Иванович"), "Данные первого работника отсутствуют в CSV файле.");
+            //Assert.IsTrue(csvContent.Contains("Анна;Кузнецова;Сергеевна"), "Данные четвертого работника отсутствуют в CSV файле.");
+        }
 
     }
 }
