@@ -208,7 +208,7 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
             {
                 throw new Exception("Ошибка при сортировке возраста по убыванию.");
             }
-            return workers;
+            return workers ;
         }
 
         /// <summary>
@@ -308,7 +308,7 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
         private static string ProcessAddress(string addressPath)
         {
             // Пример преобразования пути в структурированный адрес
-            // Например: "Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib.Addres"
+           
             var parts = addressPath.Split('.'); // Разделяем строку по точкам
             if (parts.Length >= 4)
             {
@@ -320,5 +320,78 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
             }
             return "Неизвестный адрес";
         }
+
+        public static List<Workers> ReadFromCsv(string filePath)
+        {
+            // Создаем список сотрудников через метод CreateListWorkers
+            List<Workers> workers = CreateListWorkers();
+
+            try
+            {
+                // Проверяем, существует ли файл
+                if (!File.Exists(filePath))
+                {
+                    throw new FileNotFoundException("Файл не найден.", filePath);
+                }
+
+                // Читаем все строки из файла
+                var lines = File.ReadAllLines(filePath, Encoding.UTF8);
+
+                // Пропускаем первую строку (заголовок)
+                for (int i = 1; i < lines.Length; i++)
+                {
+                    var line = lines[i];
+                    var values = line.Split(';');
+
+                    // Проверяем корректность строки
+                    if (values.Length < 16)
+                    {
+                        throw new FormatException($"Неверный формат данных в строке {i + 1}");
+                    }
+
+                    // Создаем объект Worker
+                    var worker = new Workers
+                    {
+                        Surname = values[0],
+                        FirstName = values[1],
+                        Patronymic = values[2],
+                        PhoneNumber = values[3],
+                        //Age = int.Parse(values[4]),
+                        Post = values[5],
+                        Education = values[6],
+                        Email = values[7],
+                        DateOfBirth = DateTime.ParseExact(values[12], "dd.MM.yyyy", null),
+                        DateOfEnrollment = DateTime.ParseExact(values[13], "dd.MM.yyyy", null),
+                        WorkExp = int.Parse(values[14]),
+                        Salary = double.Parse(values[15])
+                    };
+
+                    // Проверяем наличие адреса
+                    if (!string.IsNullOrWhiteSpace(values[8]) &&
+                        !string.IsNullOrWhiteSpace(values[9]) &&
+                        !string.IsNullOrWhiteSpace(values[10]) &&
+                        !string.IsNullOrWhiteSpace(values[11]))
+                    {
+                        worker.HomeAdress = new Addres
+                        {
+                            City = values[8],
+                            Street = values[9],
+                            NumberHouse = int.Parse(values[10]),
+                            NumberApartment = int.Parse(values[11])
+                        };
+                    }
+
+                    // Добавляем сотрудника в список
+                    workers.Add(worker);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ошибка при чтении файла CSV", ex);
+            }
+
+            return workers;
+        }
+
     }
 }

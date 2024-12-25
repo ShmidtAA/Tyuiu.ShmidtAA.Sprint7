@@ -501,17 +501,94 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Test
             string path = @"D:\Загрузки\OutPutDataFileSprint7TEST2.csv";
 
             // Act
-            //DataService.SortBySalaryDescending(workers);// no work
-            //DataService.SortByAgeDescending(workers);// no work
-            DataService.SortBySurname(workers);
+            //workers = DataService.SortBySalaryDescending(workers); работает
+            //workers = DataService.SortByAgeDescending(workers); работает
+            //DataService.SortBySurname(workers);
             DataService.SaveToCsv(workers, path);
 
             // Assert
             Assert.IsTrue(File.Exists(path), "CSV файл не был создан.");
             string csvContent = File.ReadAllText(path);
-            //Assert.IsTrue(csvContent.Contains("Иван;Иванов;Иванович"), "Данные первого работника отсутствуют в CSV файле.");
-            //Assert.IsTrue(csvContent.Contains("Анна;Кузнецова;Сергеевна"), "Данные четвертого работника отсутствуют в CSV файле.");
         }
+
+        [TestMethod]
+        public void ReadFromCsv_ShouldReadCsvFileCorrectly()
+        {
+            // Arrange
+            DataService ds = new DataService();
+            List<Workers> expectedWorkers = DataService.CreateListWorkers();
+
+            // Создаём тестовых работников (данные из другого теста)
+            expectedWorkers = ds.AddWorker(expectedWorkers, "Иван", "Иванов", "Иванович", "89001234567", "Разработчик", "МГУ", "ivanov@mail.ru", new DateTime(1990, 1, 1), new DateTime(2020, 5, 10), 10, 10000.60);
+            Workers worker1 = ds.FindWorker(expectedWorkers, "Иван", "Иванов", "Иванович");
+            worker1 = ds.AddHomeAdressWorker(worker1, "Москва", "Ленина", 10, 5);
+            //expectedWorkers[expectedWorkers.FindIndex(w => w.Equals(worker1))] = worker1;
+            expectedWorkers[0] = worker1;
+
+
+            expectedWorkers = ds.AddWorker(expectedWorkers, "Петр", "Петров", "Петрович", "89009876543", "Аналитик", "СПбГУ", "petrov@mail.ru", new DateTime(1985, 3, 15), new DateTime(2015, 8, 20), 15, 150056.56);
+            Workers worker2 = ds.FindWorker(expectedWorkers, "Петр", "Петров", "Петрович");
+            worker2 = ds.AddHomeAdressWorker(worker2, "Санкт-Петербург", "Невский проспект", 20, 10);
+            //expectedWorkers[expectedWorkers.FindIndex(w => w.Equals(worker2))] = worker2;
+            expectedWorkers[1] = worker2;
+
+
+            expectedWorkers = ds.AddWorker(expectedWorkers, "Мария", "Сидорова", "Викторовна", "89007654321", "Менеджер", "УрФУ", "sidorova@mail.ru", new DateTime(1995, 7, 25), new DateTime(2018, 11, 1), 5, 100005.55);
+            Workers worker3 = ds.FindWorker(expectedWorkers, "Мария", "Сидорова", "Викторовна");
+            worker3 = ds.AddHomeAdressWorker(worker3, "Екатеринбург", "Малышева", 5, 25);
+            //expectedWorkers[expectedWorkers.FindIndex(w => w.Equals(worker3))] = worker3;
+            expectedWorkers[2] = worker3;
+
+
+            expectedWorkers = ds.AddWorker(expectedWorkers, "Анна", "Кузнецова", "Сергеевна", "89006543210", "Бухгалтер", "РЭУ", "kuznetsova@mail.ru", new DateTime(1992, 12, 12), new DateTime(2019, 9, 15), 4, 9000900.00);
+            Workers worker4 = ds.FindWorker(expectedWorkers, "Анна", "Кузнецова", "Сергеевна");
+            worker4 = ds.AddHomeAdressWorker(worker4, "Новосибирск", "Красный проспект", 15, 50);
+            //expectedWorkers[expectedWorkers.FindIndex(w => w.Equals(worker4))] = worker4;
+            expectedWorkers[3] = worker4;
+
+
+            string path = @"D:\Загрузки\OutPutDataFileSprint7TEST2.csv";
+
+            // Act
+            List<Workers> actualWorkers = DataService.ReadFromCsv(path);
+
+            // Assert
+            Assert.AreEqual(expectedWorkers.Count, actualWorkers.Count, "Количество сотрудников не совпадает.");
+
+            for (int i = 0; i < expectedWorkers.Count; i++)
+            {
+                var expected = expectedWorkers[i];
+                var actual = actualWorkers[i];
+
+                Assert.AreEqual(expected.Surname, actual.Surname, $"Фамилия сотрудника #{i + 1} не совпадает.");
+                Assert.AreEqual(expected.FirstName, actual.FirstName, $"Имя сотрудника #{i + 1} не совпадает.");
+                Assert.AreEqual(expected.Patronymic, actual.Patronymic, $"Отчество сотрудника #{i + 1} не совпадает.");
+                Assert.AreEqual(expected.PhoneNumber, actual.PhoneNumber, $"Номер телефона сотрудника #{i + 1} не совпадает.");
+                Assert.AreEqual(expected.Post, actual.Post, $"Должность сотрудника #{i + 1} не совпадает.");
+                Assert.AreEqual(expected.Education, actual.Education, $"Образование сотрудника #{i + 1} не совпадает.");
+                Assert.AreEqual(expected.Email, actual.Email, $"Электронная почта сотрудника #{i + 1} не совпадает.");
+                Assert.AreEqual(expected.DateOfBirth, actual.DateOfBirth, $"Дата рождения сотрудника #{i + 1} не совпадает.");
+                Assert.AreEqual(expected.DateOfEnrollment, actual.DateOfEnrollment, $"Дата зачисления сотрудника #{i + 1} не совпадает.");
+                Assert.AreEqual(expected.WorkExp, actual.WorkExp, $"Опыт работы сотрудника #{i + 1} не совпадает.");
+                Assert.AreEqual(expected.Salary, actual.Salary, $"Зарплата сотрудника #{i + 1} не совпадает.");
+
+                if (!string.IsNullOrWhiteSpace(expected.HomeAdress.City) &&
+    !string.IsNullOrWhiteSpace(actual.HomeAdress.City))
+                {
+                    Assert.AreEqual(expected.HomeAdress.City, actual.HomeAdress.City, $"Город сотрудника #{i + 1} не совпадает.");
+                    Assert.AreEqual(expected.HomeAdress.Street, actual.HomeAdress.Street, $"Улица сотрудника #{i + 1} не совпадает.");
+                    Assert.AreEqual(expected.HomeAdress.NumberHouse, actual.HomeAdress.NumberHouse, $"Номер дома сотрудника #{i + 1} не совпадает.");
+                    Assert.AreEqual(expected.HomeAdress.NumberApartment, actual.HomeAdress.NumberApartment, $"Номер квартиры сотрудника #{i + 1} не совпадает.");
+                }
+                else if (!string.IsNullOrWhiteSpace(expected.HomeAdress.City) ||
+                         !string.IsNullOrWhiteSpace(actual.HomeAdress.City))
+                {
+                    Assert.Fail($"Адрес сотрудника #{i + 1} не совпадает.");
+                }
+
+            }
+        }
+
 
     }
 }

@@ -9,8 +9,6 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
 {
     public struct Addres
     {
-        
-
         private void ValidateString(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
@@ -18,7 +16,6 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
                 throw new ArgumentException("Строка не может быть пустым.");
             }
         }
-
         private void ValidatePositiveNumber(int value)
         {
             if (value <= 0)
@@ -26,15 +23,10 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
                 throw new ArgumentException("Значение должно быть больше нуля");
             }
         }
-
-
-
         private string _city = "Неизвестно";
         private string _street = "Неизвестно";
         private int _numberHouse = 0;
         private int _numberApartment = 0;
-
-
         /// <summary>
         /// Название города
         /// </summary>
@@ -49,8 +41,6 @@ namespace Tyuiu.ShmidtAA.Sprint7.Project.V11.Lib
             } 
         
         }
-
-
         /// <summary>
         /// Название улицы
         /// </summary>
